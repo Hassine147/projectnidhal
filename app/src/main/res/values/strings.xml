@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">project228.8</string>
+    <string name="intro_title">Let\'s Find<font color='#F3C024'> theBest &amp; Healthy</font> Grocery </string>
+    <string name="intro_login">Already have an Account?<font color='#f3c024'> Signin  </font></string>
 </resources>
