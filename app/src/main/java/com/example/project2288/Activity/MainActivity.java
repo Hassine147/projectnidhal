@@ -1,6 +1,7 @@
 package com.example.project2288.Activity;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
 
 import androidx.activity.EdgeToEdge;
@@ -9,7 +10,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.example.project2288.Adapter.CategoryAdapter;
+import com.example.project2288.Domain.CategoryDomain;
 import com.example.project2288.Domain.LocationDomain;
 import com.example.project2288.R;
 import com.example.project2288.databinding.ActivityMainBinding;
@@ -29,7 +33,37 @@ ActivityMainBinding binding;
         setContentView(binding.getRoot());
 
         initLocation();
+        initCategoryList();
 
+
+    }
+
+    private void initCategoryList() {
+        DatabaseReference myRef=database.getReference("Category");
+        binding.progressBarCategory.setVisibility(View.VISIBLE);
+        ArrayList<CategoryDomain> list=new ArrayList<>();
+
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()){
+                    for(DataSnapshot issue:snapshot.getChildren()){
+                        list.add(issue.getValue(CategoryDomain.class));
+
+                    }
+                    if (!list.isEmpty()){
+                        binding.catView.setLayoutManager(new LinearLayoutManager(MainActivity.this, LinearLayoutManager.HORIZONTAL, false));
+                        binding.catView.setAdapter(new CategoryAdapter(list));
+                    }
+                    binding.progressBarCategory.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
     }
 
