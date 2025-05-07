@@ -1,6 +1,7 @@
 package com.example.project2288.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.project2288.Activity.DetailActivity;
 import com.example.project2288.Domain.ItemDomain;
 import com.example.project2288.databinding.ViewholderBestDealBinding;
 
@@ -38,6 +40,12 @@ public class BestDealAdapter extends RecyclerView.Adapter<BestDealAdapter.Viewho
         Glide.with(context)
                 .load(items.get(position).getImagePath())
                 .into(holder.binding.img);
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent=new Intent(context, DetailActivity.class);
+            intent.putExtra("object",items.get(position));
+            context.startActivity(intent);
+
+        });
 
     }
 

@@ -25,7 +25,7 @@ public class SimilarAdapter extends RecyclerView.Adapter<SimilarAdapter.Viewhold
     @Override
     public SimilarAdapter.Viewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         context=parent.getContext();
-        ViewholderSimilarBinding binding= ViewholderSimilarBinding.inflate(LayoutInflater.from(parent.getContext()));
+        ViewholderSimilarBinding binding= ViewholderSimilarBinding.inflate(LayoutInflater.from(parent.getContext()),parent,false);
         return new Viewholder(binding);
     }
 
