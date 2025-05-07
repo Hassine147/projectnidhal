@@ -1,36 +1,57 @@
 package com.example.project2288.Adapter;
 
+import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.project2288.Domain.ItemDomain;
+import com.example.project2288.databinding.ViewholderBestDealBinding;
 
 import java.util.ArrayList;
 
 public class BestDealAdapter extends RecyclerView.Adapter<BestDealAdapter.Viewholder> {
     ArrayList<ItemDomain>items;
+    Context context;
+
+    public BestDealAdapter(ArrayList<ItemDomain> items) {
+        this.items = items;
+    }
+
     @NonNull
     @Override
     public BestDealAdapter.Viewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return null;
+        context= parent.getContext();
+        ViewholderBestDealBinding binding=ViewholderBestDealBinding.inflate(LayoutInflater.from(parent.getContext()),parent,false);
+        return new Viewholder(binding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull BestDealAdapter.Viewholder holder, int position) {
+        holder.binding.titleTxt.setText(items.get(position).getTitle());
+        holder.binding.priceTxt.setText(items.get(position).getPrice()+" $/kg");
+
+        Glide.with(context)
+                .load(items.get(position).getImagePath())
+                .into(holder.binding.img);
 
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return items.size();
     }
 
     public class Viewholder extends RecyclerView.ViewHolder {
-        public Viewholder(@NonNull View itemView) {
-            super(itemView);
+        ViewholderBestDealBinding binding;
+        public Viewholder(ViewholderBestDealBinding binding) {
+
+            super(binding.getRoot());
+            this.binding= binding;
         }
     }
 }

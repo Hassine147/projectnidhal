@@ -12,8 +12,10 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.example.project2288.Adapter.BestDealAdapter;
 import com.example.project2288.Adapter.CategoryAdapter;
 import com.example.project2288.Domain.CategoryDomain;
+import com.example.project2288.Domain.ItemDomain;
 import com.example.project2288.Domain.LocationDomain;
 import com.example.project2288.R;
 import com.example.project2288.databinding.ActivityMainBinding;
@@ -34,8 +36,36 @@ ActivityMainBinding binding;
 
         initLocation();
         initCategoryList();
+        initBestDealList();
 
 
+    }
+
+    private void initBestDealList() {
+        DatabaseReference myRef=database.getReference("Items");
+        binding.progressBarBestdeal.setVisibility(View.VISIBLE);
+        ArrayList<ItemDomain> list=new ArrayList<>();
+
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    for(DataSnapshot issue:snapshot.getChildren()){
+                        list.add(issue.getValue(ItemDomain.class));
+                    }
+                    if(!list.isEmpty()){
+                        binding.BestdealView.setLayoutManager(new LinearLayoutManager(MainActivity.this,LinearLayoutManager.HORIZONTAL,false));
+                        binding.BestdealView.setAdapter(new BestDealAdapter(list));
+                    }
+                    binding.progressBarBestdeal.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     private void initCategoryList() {
